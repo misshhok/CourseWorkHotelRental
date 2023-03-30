@@ -33,7 +33,7 @@ public class UserController {
             schema = @Schema(implementation = Boolean.class))
         })
     })
-  @PostMapping("/registration")
+  @PostMapping("registration/")
   public ResponseEntity<Boolean> addUser(
     @RequestBody CreateUserJsonRequest createUserRequest
   ) {
