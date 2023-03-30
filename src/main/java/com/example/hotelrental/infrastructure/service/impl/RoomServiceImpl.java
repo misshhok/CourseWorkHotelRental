@@ -70,7 +70,8 @@ public class RoomServiceImpl implements RoomService {
         () -> new IllegalArgumentException("Номера с таким ID не существует")
       );
     room.setState(!room.isState());
-    return true;
+    roomRepository.save(room);
+    return room.isState();
   }
 
   public RoomEntity getRoomByRoomId(Long id) {

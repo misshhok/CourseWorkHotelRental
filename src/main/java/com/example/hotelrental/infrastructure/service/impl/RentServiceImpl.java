@@ -68,7 +68,7 @@ public class RentServiceImpl implements RentService {
       () -> new IllegalArgumentException("Аренды номера с таким ID нет")
     );
     if (rent.isState()) {
-      return rent.getDepartureDate().isAfter(LocalDate.now());
+      return rent.getDepartureDate().isBefore(LocalDate.now());
     } else {
       return true;
     }
@@ -77,7 +77,7 @@ public class RentServiceImpl implements RentService {
   @Override
   public boolean idRentExpired(final RentEntity rent) {
     if (rent != null && rent.isState()) {
-      return rent.getDepartureDate().isAfter(LocalDate.now());
+      return rent.getDepartureDate().isBefore(LocalDate.now());
     } else {
       return true;
     }

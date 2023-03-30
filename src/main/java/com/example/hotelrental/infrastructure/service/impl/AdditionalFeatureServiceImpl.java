@@ -47,7 +47,7 @@ public class AdditionalFeatureServiceImpl implements AdditionalFeatureService {
   }
 
   @Override
-  public List<AdditionalFeatureDto> getAllAdditionalFeature() {
+  public List<AdditionalFeatureDto> getAllAdditionalFeatures() {
     return additionalFeatureRepository.findAll()
       .stream()
       .map(additionalFeatureMapper::toDto)

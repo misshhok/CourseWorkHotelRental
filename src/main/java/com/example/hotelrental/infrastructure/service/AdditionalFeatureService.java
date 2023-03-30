@@ -7,5 +7,5 @@ import java.util.List;
 public interface AdditionalFeatureService {
   boolean createAdditionalFeature(CreateAdditionalFeatureRequest createAdditionalFeatureRequest);
   AdditionalFeatureDto getAdditionalFeatureId(Long id);
-  List<AdditionalFeatureDto> getAllAdditionalFeature();
+  List<AdditionalFeatureDto> getAllAdditionalFeatures();
 }
