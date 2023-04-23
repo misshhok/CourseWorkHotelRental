@@ -3,17 +3,21 @@ package com.example.hotelrental.infrastructure.service;
 import com.example.hotelrental.infrastructure.dao.RentEntity;
 import com.example.hotelrental.infrastructure.service.dto.rent.CreateRentRequest;
 import com.example.hotelrental.infrastructure.service.dto.rent.RentDto;
+
 import java.util.List;
 
 public interface RentService {
-  boolean rentRoom(CreateRentRequest createRentRequest);
-  boolean isRentExpired(Long rentId);
-  boolean idRentExpired(RentEntity rent);
-  boolean cancelRent(Long id);
+    boolean rentRoom(CreateRentRequest createRentRequest);
 
-  boolean cancelAllExpiredTasks();
+    boolean isRentExpired(Long rentId);
 
-  RentDto getRentDtoById(Long id);
+    boolean idRentExpired(RentEntity rent);
 
-  List<RentDto> getAllRents();
+    boolean cancelRent(Long id);
+
+    boolean cancelAllExpiredTasks();
+
+    RentDto getRentDtoById(Long id);
+
+    List<RentDto> getAllRents();
 }

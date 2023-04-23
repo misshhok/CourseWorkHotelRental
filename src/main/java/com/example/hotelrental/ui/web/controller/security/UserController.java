@@ -19,28 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "User", description = "API для работы с пользователями")
 public class UserController {
-  private final UserService userService;
-  private final UserJsonMapper userJsonMapper = UserJsonMapper.INSTANCE;
-  @Operation(summary = "Создать пользователя", tags = "User")
-  @ApiResponses(
-    value = {
-      @ApiResponse(
-        responseCode = "200",
-        description = "Создан пользователь",
-        content = {
-          @Content(
-            mediaType = "application/json",
-            schema = @Schema(implementation = Boolean.class))
-        })
-    })
-  @PostMapping("registration/")
-  public ResponseEntity<Boolean> addUser(
-    @RequestBody CreateUserJsonRequest createUserRequest
-  ) {
-    return ResponseEntity.ok().body(
-      userService.registerUser(
-        userJsonMapper.jsonToDto(createUserRequest)
-      )
-    );
-  }
+    private final UserService userService;
+    private final UserJsonMapper userJsonMapper = UserJsonMapper.INSTANCE;
+
+    @Operation(summary = "Создать пользователя", tags = "User")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Создан пользователь",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = Boolean.class))
+                            })
+            })
+    @PostMapping("registration/")
+    public ResponseEntity<Boolean> addUser(
+            @RequestBody CreateUserJsonRequest createUserRequest
+    ) {
+        return ResponseEntity.ok().body(
+                userService.registerUser(
+                        userJsonMapper.jsonToDto(createUserRequest)
+                )
+        );
+    }
 }

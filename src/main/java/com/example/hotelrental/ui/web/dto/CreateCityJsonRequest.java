@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Schema(description = "Создать город")
 public class CreateCityJsonRequest {
-  @Schema(description = "Название", example = "Белгород")
-  private String title;
+    @Schema(description = "Название", example = "Белгород")
+    private String title;
 }

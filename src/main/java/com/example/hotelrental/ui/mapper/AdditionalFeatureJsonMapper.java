@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface AdditionalFeatureJsonMapper {
-  AdditionalFeatureJsonMapper INSTANCE = Mappers.getMapper(AdditionalFeatureJsonMapper.class);
+    AdditionalFeatureJsonMapper INSTANCE = Mappers.getMapper(AdditionalFeatureJsonMapper.class);
 
-  CreateAdditionalFeatureRequest jsonToDto(CreateAdditionalFeatureJsonRequest request);
+    CreateAdditionalFeatureRequest jsonToDto(CreateAdditionalFeatureJsonRequest request);
 }

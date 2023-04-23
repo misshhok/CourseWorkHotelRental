@@ -8,18 +8,17 @@ import com.example.hotelrental.ui.web.dto.CreateRentJsonRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import java.time.LocalDate;
-import java.util.Set;
 
 @Mapper
 public interface RentJsonMapper {
-  RentJsonMapper INSTANCE = Mappers.getMapper(RentJsonMapper.class);
-  @Mapping(target = "roomId", source = "request.roomId")
-  @Mapping(target = "departureDate", source = "request.departureDate")
-  @Mapping(target = "entryDate", source = "request.entryDate")
-  @Mapping(target = "additionalFeatureIds", source = "request.additionalFeatureIds")
-  @Mapping(target = "user", source = "user")
-  CreateRentRequest jsonToDto(CreateRentJsonRequest request, User user);
+    RentJsonMapper INSTANCE = Mappers.getMapper(RentJsonMapper.class);
 
-  AddRateToHotelRequest jsonToDto(AddRateToHotelJsonRequest addRateToHotelJsonRequest);
+    @Mapping(target = "roomId", source = "request.roomId")
+    @Mapping(target = "departureDate", source = "request.departureDate")
+    @Mapping(target = "entryDate", source = "request.entryDate")
+    @Mapping(target = "additionalFeatureIds", source = "request.additionalFeatureIds")
+    @Mapping(target = "user", source = "user")
+    CreateRentRequest jsonToDto(CreateRentJsonRequest request, User user);
+
+    AddRateToHotelRequest jsonToDto(AddRateToHotelJsonRequest addRateToHotelJsonRequest);
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CreateHotelRequest {
-  private String title;
-  private String address;
-  private Long cityId;
+    private String title;
+    private String address;
+    private Long cityId;
 }

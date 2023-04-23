@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface RoleJsonMapper {
-  RoleJsonMapper INSTANCE = Mappers.getMapper(RoleJsonMapper.class);
+    RoleJsonMapper INSTANCE = Mappers.getMapper(RoleJsonMapper.class);
 
-  CreateRoleRequest jsonToDto(CreateRoleJsonRequest createRoleJsonRequest);
+    CreateRoleRequest jsonToDto(CreateRoleJsonRequest createRoleJsonRequest);
 }

@@ -1,0 +1,1329 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Спецификация OpenAPI для сервиса аренды номера отеля",
+    "description": "",
+    "contact": {
+      "name": "имя",
+      "email": "почта@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://springdoc.org"
+    },
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Dev service"
+    }
+  ],
+  "tags": [
+    {
+      "name": "City",
+      "description": "API для работы с городами"
+    },
+    {
+      "name": "Room",
+      "description": "API для работы с номерами отелей"
+    },
+    {
+      "name": "Additional Features",
+      "description": "API для работы с дополнительными услугами аренды"
+    },
+    {
+      "name": "Hotel",
+      "description": "API для работы с отелями"
+    },
+    {
+      "name": "User",
+      "description": "API для работы с пользователями"
+    },
+    {
+      "name": "Role",
+      "description": "API для работы с ролями пользователей"
+    },
+    {
+      "name": "Rent",
+      "description": "API для работы с арендами"
+    }
+  ],
+  "paths": {
+    "/hotels/": {
+      "get": {
+        "tags": [
+          "Hotel"
+        ],
+        "summary": "Получить список отелей",
+        "operationId": "getAllHotels",
+        "responses": {
+          "200": {
+            "description": "Получен список отелей",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HotelDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Hotel"
+        ],
+        "summary": "Создать оценку для отеля",
+        "operationId": "addRateToHotel",
+        "parameters": [
+          {
+            "name": "addRateToHotelJsonRequest",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AddRateToHotelJsonRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Новая оценка отеля",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/rooms/{id}/": {
+      "put": {
+        "tags": [
+          "Room"
+        ],
+        "summary": "Изменить статус конкретного номера (занят/свободен)",
+        "operationId": "changeRoomState",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "true - свободен, false - занят",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/rents/{id}/": {
+      "get": {
+        "tags": [
+          "Rent"
+        ],
+        "summary": "Получить информацию об аренде",
+        "operationId": "getRentById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получена информация об аренде",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Rent"
+        ],
+        "summary": "Закрыть аренду",
+        "operationId": "cancelRent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "true - закрыта, false - ошибка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rents/": {
+      "post": {
+        "tags": [
+          "Rent"
+        ],
+        "summary": "Арендовать номер",
+        "operationId": "rentRoom",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "createRentJsonRequest": {
+                    "$ref": "#/components/schemas/CreateRentJsonRequest"
+                  },
+                  "user": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "true - номер арендован, false - ошибка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/registration/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Создать пользователя",
+        "operationId": "addUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserJsonRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Создан пользователь",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/rooms/": {
+      "post": {
+        "tags": [
+          "Room"
+        ],
+        "summary": "Создать новый номер",
+        "operationId": "createRoom",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoomJsonRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "true - создан новый номер",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/roles": {
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "Получить список ролей",
+        "operationId": "getAllRoles",
+        "responses": {
+          "200": {
+            "description": "Получен список ролей",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RoleDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Role"
+        ],
+        "summary": "Создать роль",
+        "operationId": "createRole",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleJsonRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Создана роль",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/hotels/": {
+      "post": {
+        "tags": [
+          "Hotel"
+        ],
+        "summary": "Создать отель",
+        "operationId": "createHotel",
+        "parameters": [
+          {
+            "name": "createHotelJsonRequest",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/CreateHotelJsonRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "true - отель создан, false - ошибка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/cities/": {
+      "post": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Создать город",
+        "operationId": "createCity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCityJsonRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Создан новый город",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/additional-features/": {
+      "post": {
+        "tags": [
+          "Additional Features"
+        ],
+        "summary": "Создать дополнительную услугу аренды",
+        "operationId": "createAdditionalFeature",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdditionalFeatureJsonRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Создана дополнительная услуга аренды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/test/": {
+      "get": {
+        "tags": [
+          "main-controller"
+        ],
+        "operationId": "test",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rooms/{id}/available/": {
+      "get": {
+        "tags": [
+          "Room"
+        ],
+        "summary": "Получить статус конкретного номера (занят/свободен)",
+        "operationId": "isRoomAvailable",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "true - свободен, false - занят",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rooms/{id}/": {
+      "get": {
+        "tags": [
+          "Room"
+        ],
+        "summary": "Получить информацию о номере",
+        "operationId": "getRoomByRoomId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получена информация о номере",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rooms/hotels/{id}/": {
+      "get": {
+        "tags": [
+          "Room"
+        ],
+        "summary": "Получить список номеров",
+        "operationId": "getRoomsByHotelId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получен список номеров",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RoomDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rents/{id}/expired/": {
+      "get": {
+        "tags": [
+          "Rent"
+        ],
+        "summary": "Проверить статус аренды (истек срок/еще актуальна)",
+        "operationId": "isRentExpired",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "true - истекла, false - еще актуальна",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hotels/{id}/": {
+      "get": {
+        "tags": [
+          "Hotel"
+        ],
+        "summary": "Получить информацию об отеле",
+        "operationId": "getHotelById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получена информация об отеле",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HotelDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cities/{id}/": {
+      "get": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Получить город",
+        "operationId": "getCityById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получена информация о городе",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cities/": {
+      "get": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Получить все доступные города",
+        "operationId": "getAllCities",
+        "responses": {
+          "200": {
+            "description": "Получен список городов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/rents/": {
+      "get": {
+        "tags": [
+          "Rent"
+        ],
+        "summary": "Получить информацию обо всех арендах",
+        "operationId": "getAllRents",
+        "responses": {
+          "200": {
+            "description": "Получена информация об аренде",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RentDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/additional-features/{id}/": {
+      "get": {
+        "tags": [
+          "Additional Features"
+        ],
+        "summary": "Получить информацию о дополнительной услуге аренды",
+        "operationId": "getAdditionalFeatureById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получена информация о дополнительной услуге аренды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/additional-features/": {
+      "get": {
+        "tags": [
+          "Additional Features"
+        ],
+        "summary": "Получить список дополнительных услуг аренды",
+        "operationId": "getAllAdditionalFeatures",
+        "responses": {
+          "200": {
+            "description": "Получен список дополнительных услуг аренды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "main-controller"
+        ],
+        "operationId": "main",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/roles/{id}/": {
+      "delete": {
+        "tags": [
+          "Role"
+        ],
+        "operationId": "deleteRoleById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddRateToHotelJsonRequest": {
+        "type": "object",
+        "properties": {
+          "hotelId": {
+            "type": "integer",
+            "description": "ID отеля",
+            "format": "int64",
+            "example": 1
+          },
+          "rate": {
+            "type": "number",
+            "description": "значение оценки",
+            "example": 5
+          }
+        },
+        "description": "Создать оценку"
+      },
+      "CreateRentJsonRequest": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "integer",
+            "description": "ID номера",
+            "format": "int64",
+            "example": 1
+          },
+          "departureDate": {
+            "type": "string",
+            "description": "Дата выезда",
+            "format": "date",
+            "example": "2023-12-01"
+          },
+          "entryDate": {
+            "type": "string",
+            "description": "Дата заезда",
+            "format": "date",
+            "example": "2023-12-02"
+          },
+          "additionalFeatureIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "ID дополнительных услуг",
+            "example": 1,
+            "items": {
+              "type": "integer",
+              "description": "ID дополнительных услуг",
+              "format": "int64",
+              "example": 1
+            }
+          }
+        },
+        "description": "Арендовать номер"
+      },
+      "AdditionalFeatureEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "rentEntities": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RentEntity"
+            }
+          }
+        }
+      },
+      "CityEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string"
+          },
+          "hotels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HotelEntity"
+            }
+          }
+        }
+      },
+      "GrantedAuthority": {
+        "type": "object",
+        "properties": {
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "HotelEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "address": {
+            "type": "string"
+          },
+          "city": {
+            "$ref": "#/components/schemas/CityEntity"
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoomEntity"
+            }
+          }
+        }
+      },
+      "RentEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "room": {
+            "$ref": "#/components/schemas/RoomEntity"
+          },
+          "totalPrice": {
+            "type": "number"
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "entryDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "state": {
+            "type": "boolean"
+          },
+          "additionalFeaturesEntities": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalFeatureEntity"
+            }
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "users": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "RoomEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "floor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state": {
+            "type": "boolean"
+          },
+          "pricePerDay": {
+            "type": "number"
+          },
+          "hotel": {
+            "$ref": "#/components/schemas/HotelEntity"
+          },
+          "rentEntities": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RentEntity"
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "passwordConfirm": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "surname": {
+            "type": "string"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "rents": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RentEntity"
+            }
+          },
+          "roles": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateUserJsonRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Логин",
+            "example": "user"
+          },
+          "password": {
+            "type": "string",
+            "description": "Пароль",
+            "example": "user"
+          },
+          "name": {
+            "type": "string",
+            "description": "Имя",
+            "example": "Иван"
+          },
+          "surname": {
+            "type": "string",
+            "description": "Фамилия",
+            "example": "Иванов"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "description": "Дата рождения",
+            "example": "2000-10-10"
+          }
+        },
+        "description": "Создать пользователя"
+      },
+      "CreateRoomJsonRequest": {
+        "type": "object",
+        "properties": {
+          "floor": {
+            "type": "integer",
+            "description": "Этаж",
+            "format": "int32",
+            "example": 1
+          },
+          "hotelId": {
+            "type": "integer",
+            "description": "ID отеля",
+            "format": "int64",
+            "example": 1
+          },
+          "roomNumber": {
+            "type": "integer",
+            "description": "Номер комнаты",
+            "format": "int32",
+            "example": 666
+          },
+          "pricePerDay": {
+            "type": "number",
+            "description": "Цена за сутки",
+            "example": 1000
+          }
+        },
+        "description": "Создать номер"
+      },
+      "CreateRoleJsonRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Название",
+            "example": "user"
+          }
+        },
+        "description": "Создать роль"
+      },
+      "CreateHotelJsonRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Название отеля",
+            "example": "Континенталь"
+          },
+          "address": {
+            "type": "string",
+            "description": "Адрес",
+            "example": "улица Губкина, дом 10"
+          },
+          "cityId": {
+            "type": "integer",
+            "description": "ID города",
+            "format": "int64",
+            "example": 1
+          }
+        },
+        "description": "Создать отель"
+      },
+      "CreateCityJsonRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Название",
+            "example": "Белгород"
+          }
+        },
+        "description": "Создать город"
+      },
+      "CreateAdditionalFeatureJsonRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Описание",
+            "example": "Завтрак по утрам"
+          },
+          "price": {
+            "type": "number",
+            "description": "Цена",
+            "example": 1000
+          }
+        },
+        "description": "Создать доп. услугу"
+      },
+      "RoomDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "floor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state": {
+            "type": "boolean"
+          },
+          "hotelId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "roomNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pricePerDay": {
+            "type": "number"
+          }
+        }
+      },
+      "HotelDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "address": {
+            "type": "string"
+          },
+          "cityId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "roomIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
+      "RoleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "RentDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "roomId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPrice": {
+            "type": "number"
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "entryDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "additionalFeatureIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    }
+  }
+}

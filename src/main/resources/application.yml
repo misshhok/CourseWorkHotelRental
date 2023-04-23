@@ -23,7 +23,7 @@ spring:
       mode: always
       platform: postgres
   datasource:
-    url: "jdbc:postgresql://localhost:5433/postgres"
+    url: "jdbc:postgresql://localhost:5434/postgres"
     username: "postgres"
     password: "postgres"
 
@@ -31,7 +31,6 @@ spring:
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
-
 
 admin:
   login: admin
@@ -41,3 +40,8 @@ tasks:
   checkExpiredRents:
     cron: "1 * * * * ?"
     enabled: "true"
+#springdoc:
+#  swagger-ui:
+#    disable-swagger-default-url: true
+#    path: "/docs.html"
+#    operations-sorter: method

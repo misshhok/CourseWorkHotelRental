@@ -17,47 +17,49 @@ import org.springframework.security.web.method.annotation.AuthenticationPrincipa
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-  private final UserServiceImpl userService;
-  private final PasswordEncoder passwordEncoder;
+    private final UserServiceImpl userService;
+    private final PasswordEncoder passwordEncoder;
 
-  /**
-   * Конфигурация доступа к URI.
-   *
-   * @param http - autowired
-   * @return SecurityFilterChain
-   */
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-      .csrf().disable()
-      .authorizeHttpRequests((auth) ->
-        {
-          try {
-            auth
-              .requestMatchers("/registration/").permitAll()
-              .requestMatchers("/").permitAll()
-              .requestMatchers("/test/").authenticated()
-              .requestMatchers("/rents/**").authenticated()
-              .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-              .anyRequest().permitAll()
-              .and()
-              .formLogin()
-              .loginProcessingUrl("/login")
-              .defaultSuccessUrl("/")
-              .and()
-              .logout()
-              .logoutUrl("/logout")
-              .deleteCookies("JSESSIONID");
-          } catch (Exception e) {
-            throw new RuntimeException(e);
-          }
-        }
-      )
-      .httpBasic();
-    return http.build();
-  }
+    /**
+     * Конфигурация доступа к URI.
+     *
+     * @param http - autowired
+     * @return SecurityFilterChain
+     */
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeHttpRequests((auth) ->
+                        {
+                            try {
+                                auth
+                                        .requestMatchers("/registration/").permitAll()
+                                        .requestMatchers("/").permitAll()
+                                        .requestMatchers("/test/").authenticated()
+                                        .requestMatchers("/rents/**").authenticated()
+                                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                                        .requestMatchers("/v3/api-docs/**",
+                                                "/swagger-ui/**").permitAll()
+                                        .anyRequest().permitAll()
+                                        .and()
+                                        .formLogin()
+                                        .loginProcessingUrl("/login")
+                                        .defaultSuccessUrl("/")
+                                        .and()
+                                        .logout()
+                                        .logoutUrl("/logout")
+                                        .deleteCookies("JSESSIONID");
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                )
+                .httpBasic();
+        return http.build();
+    }
 
-  //  /**
+    //  /**
 //   * Создание юзера с ролью администратор.
 //   *
 //   * @return InMemoryUserDetailsManager
@@ -73,13 +75,13 @@ public class SecurityConfig {
 //    return new InMemoryUserDetailsManager(user);
 //  }
 
-  @Autowired
-  protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
-  }
+    @Autowired
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
+    }
 
-  @Bean
-  public AuthenticationPrincipalArgumentResolver authenticationPrincipalArgumentResolver() {
-    return new AuthenticationPrincipalArgumentResolver();
-  }
+    @Bean
+    public AuthenticationPrincipalArgumentResolver authenticationPrincipalArgumentResolver() {
+        return new AuthenticationPrincipalArgumentResolver();
+    }
 }

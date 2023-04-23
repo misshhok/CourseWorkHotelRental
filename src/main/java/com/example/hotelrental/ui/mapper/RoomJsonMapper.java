@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface RoomJsonMapper {
-  RoomJsonMapper INSTANCE = Mappers.getMapper(RoomJsonMapper.class);
+    RoomJsonMapper INSTANCE = Mappers.getMapper(RoomJsonMapper.class);
 
-  CreateRoomRequest jsonToDto(CreateRoomJsonRequest createRoomJsonRequest);
+    CreateRoomRequest jsonToDto(CreateRoomJsonRequest createRoomJsonRequest);
 }
