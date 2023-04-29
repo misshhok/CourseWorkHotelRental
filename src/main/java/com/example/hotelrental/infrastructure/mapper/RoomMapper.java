@@ -8,8 +8,8 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface RoomMapper {
-    RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
+  RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
 
-    @Mapping(target = "hotelId", expression = "java(entity.getHotel().getId())")
-    RoomDto toDto(RoomEntity entity);
+  @Mapping(target = "hotelId", expression = "java(entity.getHotel().getId())")
+  RoomDto toDto(RoomEntity entity);
 }

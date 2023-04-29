@@ -8,9 +8,9 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface AdditionalFeatureMapper {
-    AdditionalFeatureMapper INSTANCE = Mappers.getMapper(AdditionalFeatureMapper.class);
+  AdditionalFeatureMapper INSTANCE = Mappers.getMapper(AdditionalFeatureMapper.class);
 
-    AdditionalFeatureDto toDto(AdditionalFeatureEntity entity);
+  AdditionalFeatureDto toDto(AdditionalFeatureEntity entity);
 
-    AdditionalFeatureEntity toEntity(CreateAdditionalFeatureRequest createAdditionalFeatureRequest);
+  AdditionalFeatureEntity toEntity(CreateAdditionalFeatureRequest createAdditionalFeatureRequest);
 }

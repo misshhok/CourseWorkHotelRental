@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface UserJsonMapper {
-    UserJsonMapper INSTANCE = Mappers.getMapper(UserJsonMapper.class);
+  UserJsonMapper INSTANCE = Mappers.getMapper(UserJsonMapper.class);
 
-    CreateUserRequest jsonToDto(CreateUserJsonRequest request);
+  CreateUserRequest jsonToDto(CreateUserJsonRequest request);
 }

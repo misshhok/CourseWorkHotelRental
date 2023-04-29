@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface CityMapper {
-    CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
+  CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
 
-    CityDto toDto(CityEntity cityEntity);
+  CityDto toDto(CityEntity cityEntity);
 }

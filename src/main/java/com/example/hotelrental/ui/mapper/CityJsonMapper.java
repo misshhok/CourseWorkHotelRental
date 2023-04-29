@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface CityJsonMapper {
-    CityJsonMapper INSTANCE = Mappers.getMapper(CityJsonMapper.class);
+  CityJsonMapper INSTANCE = Mappers.getMapper(CityJsonMapper.class);
 
-    CreateCityRequest jsonToDto(CreateCityJsonRequest request);
+  CreateCityRequest jsonToDto(CreateCityJsonRequest request);
 }

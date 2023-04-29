@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RentRepository extends JpaRepository<RentEntity, Long> {
-    Page<RentEntity> findAllByState(boolean state, Pageable pageable);
+  Page<RentEntity> findAllByState(boolean state, Pageable pageable);
 }

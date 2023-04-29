@@ -9,9 +9,9 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface HotelJsonMapper {
-    HotelJsonMapper INSTANCE = Mappers.getMapper(HotelJsonMapper.class);
+  HotelJsonMapper INSTANCE = Mappers.getMapper(HotelJsonMapper.class);
 
-    CreateHotelRequest jsonToDto(CreateHotelJsonRequest createHotelJsonRequest);
+  CreateHotelRequest jsonToDto(CreateHotelJsonRequest createHotelJsonRequest);
 
-    AddRateToHotelRequest jsonToDto(AddRateToHotelJsonRequest addRateToHotelJsonRequest);
+  AddRateToHotelRequest jsonToDto(AddRateToHotelJsonRequest addRateToHotelJsonRequest);
 }

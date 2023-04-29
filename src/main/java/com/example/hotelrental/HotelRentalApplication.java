@@ -15,18 +15,18 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @RequiredArgsConstructor
 public class HotelRentalApplication implements CommandLineRunner {
 
-    private final UserServiceImpl userService;
-    private final RoleServiceImpl roleService;
+  private final UserServiceImpl userService;
+  private final RoleServiceImpl roleService;
 
-    public static void main(String[] args) {
-        SpringApplication.run(HotelRentalApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(HotelRentalApplication.class, args);
+  }
 
-    @Override
-    public void run(final String... args) throws Exception {
-        roleService.saveRole("ROLE_ADMIN");
-        roleService.saveRole("ROLE_USER");
-        userService.saveAdmin();
-    }
+  @Override
+  public void run(final String... args) throws Exception {
+    roleService.saveRole("ROLE_ADMIN");
+    roleService.saveRole("ROLE_USER");
+    userService.saveAdmin();
+  }
 }
 

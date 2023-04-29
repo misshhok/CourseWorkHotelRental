@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @ConditionalOnProperty(prefix = "tasks.checkExpiredRents", name = "enabled")
 @RequiredArgsConstructor
 public class CheckExpiredRentsTask {
-    private final CheckExpiredRentsService checkExpiredRentsService;
+  private final CheckExpiredRentsService checkExpiredRentsService;
 
-    @Scheduled(cron = "${tasks.checkExpiredRents.cron}")
-    private void checkExpiredRents() {
-        checkExpiredRentsService.fireTask();
-    }
+  @Scheduled(cron = "${tasks.checkExpiredRents.cron}")
+  private void checkExpiredRents() {
+    checkExpiredRentsService.fireTask();
+  }
 }

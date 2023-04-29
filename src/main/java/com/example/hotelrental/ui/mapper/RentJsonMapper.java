@@ -11,14 +11,14 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface RentJsonMapper {
-    RentJsonMapper INSTANCE = Mappers.getMapper(RentJsonMapper.class);
+  RentJsonMapper INSTANCE = Mappers.getMapper(RentJsonMapper.class);
 
-    @Mapping(target = "roomId", source = "request.roomId")
-    @Mapping(target = "departureDate", source = "request.departureDate")
-    @Mapping(target = "entryDate", source = "request.entryDate")
-    @Mapping(target = "additionalFeatureIds", source = "request.additionalFeatureIds")
-    @Mapping(target = "user", source = "user")
-    CreateRentRequest jsonToDto(CreateRentJsonRequest request, User user);
+  @Mapping(target = "roomId", source = "request.roomId")
+  @Mapping(target = "departureDate", source = "request.departureDate")
+  @Mapping(target = "entryDate", source = "request.entryDate")
+  @Mapping(target = "additionalFeatureIds", source = "request.additionalFeatureIds")
+  @Mapping(target = "user", source = "user")
+  CreateRentRequest jsonToDto(CreateRentJsonRequest request, User user);
 
-    AddRateToHotelRequest jsonToDto(AddRateToHotelJsonRequest addRateToHotelJsonRequest);
+  AddRateToHotelRequest jsonToDto(AddRateToHotelJsonRequest addRateToHotelJsonRequest);
 }
